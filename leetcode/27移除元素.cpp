@@ -21,10 +21,14 @@
 /*
     我的想法 因为要O（1）的空间复杂度，考虑直接在原数组上操作 参考之前某一道做过的题， 先排序，之后双指针 
     评论区中的方法有很多  有的代码也很精简 但是我没有仔细看 =w=
+    
+    官方题解的第一种解法就很简洁 效率也很高，其实就是快指针跳过那些等于target的值，之后把值赋给慢指针
+    解法和删除数组中重复元素类似
 */
 class Solution {
 public:
     int removeElement(vector<int>& nums, int val) {
+        /*
         if(nums.size()<=0)
             return 0;
         sort(nums.begin(), nums.end());
@@ -62,6 +66,18 @@ public:
         {
             nums[i]=nums[j];
             i++;
+            j++;
+        }
+        return i;
+        */
+        int i=0,j=0;
+        while(j<nums.size())
+        {
+            if(nums[j]!=val)
+            {
+                nums[i]=nums[j];
+                i++;
+            }
             j++;
         }
         return i;

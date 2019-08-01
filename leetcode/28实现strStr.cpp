@@ -58,4 +58,128 @@ public:
     }
     */
     
+    /*
+    // KMP 算法实现
+    int strStr(string haystack, string needle) 
+    {
+        if(needle.empty())
+            return 0;
+        vector<int> next=getNext(needle);
+        int i=0,j=0;
+        while(i<haystack.size()&&j<needle.size())
+        {
+            if(j==0||haystack[i]==needle[j])
+            {
+                if(j==0)
+                {
+                    if(haystack[i]==needle[j])
+                    {
+                        i++;
+                        j++;
+                    }
+                    else
+                        i++;
+                }
+                else
+                {
+                    i++;
+                    j++;
+                }
+            }
+            else
+                j=next[j-1];
+        }
+        if(j==needle.size())
+            return i-j;
+        return -1;
+    }
+    
+    // KMP算法中需要匹配字符串的next数组
+    vector<int> getNext(string needle)
+    {
+        vector<int> next(needle.size(), 0);
+        int i=1,j=0;
+        while(i<needle.size())
+        {
+            if(j==0||needle[i]==needle[j])
+            {
+                if(j==0)
+                {
+                    if(needle[i]==needle[j])
+                        next[i++]=++j;
+                    else
+                        next[i++]=j;
+                }
+                else
+                    next[i++]=++j;
+            }
+            else
+            {
+                j=next[j-1];
+            }
+        }
+        return next;
+    }
+    */
+    
+    // 对next数组优化的kmp算法
+    // KMP 算法实现
+    int strStr(string haystack, string needle) 
+    {
+        if(needle.empty())
+            return 0;
+        vector<int> next=getNext(needle);
+        /*
+        for(auto i:next)
+            cout<<i<<",";
+        cout<<endl;
+        */
+        int i=0,j=0;
+        int sizeH=haystack.size();
+        int sizeN=needle.size();
+        while( i<sizeH && j<sizeN )
+        {
+            if( j==-1||haystack[i]==needle[j])
+            {
+                i++;
+                j++;
+            }
+            else
+            {
+                j=next[j];
+                /*
+                这里很奇怪 j=-1 needle.size()=2  j < needle.size()的结果居然是false 只好用一个变量来替换一下 
+                cout<<j<<","<<needle.size()<<"qwe"<<endl;
+                int size=needle.size();
+                cout<<( j < size )<<"hjk"<<endl;
+                cout<<(-1<2)<<"hjk"<<endl;
+                */
+            }
+        }
+        // cout<<i<<","<<j<<"dasdsad"<<endl;
+        if(j==needle.size())
+            return i-j;
+        return -1;
+    }
+    
+    // KMP算法中需要匹配字符串的next数组  优化一下，采用j=-1为初始值，简化编程
+    vector<int> getNext(string needle)
+    {
+        vector<int> next(needle.size(), 0);
+        // 这里的j=-1, i可以从0开始 编程更方便
+        int i=0,j=-1;
+        next[0]=-1;
+        while(i<needle.size()-1)
+        {
+            if(j==-1||needle[i]==needle[j])
+            {
+                next[++i]=++j;
+            }
+            else
+            {
+                j=next[j];
+            }
+        }
+        return next;
+    }
 };
