@@ -38,12 +38,20 @@
     但是我的想法我没能实现
     
     大佬的想法是，先序遍历，先把当前节点的孩子节点入栈，这样就相当于记录了左右子树位置
+    这么做的原因是 如果递归实现先序遍历，那么当前节点左子树赋给当前节点右子树之后，当前节点右子树就丢失了
+    如果用栈辅助实现先序遍历
     之后把当前节点cur赋给root的右子树， root=root->right  这时root就等于cur了 因为cur的左右子树都入栈了相当于处理完了
     所以不会出现错误   记得把左子树置空
+    
+    递归的话，如果先序遍历不可以，可以考虑后序遍历的变种，也就是倒着构建这个链表，从右下角的节点开始
+    如果先序遍历是 根左右  而后序遍历是左右根， 先序遍历相反的顺序是右左根，所以可以修改一下后序遍历的递归代码来实现
+    用一个指针记录上一个遍历的节点，把当前节点右孩子设置为上一个节点，左孩子置空
 */
 class Solution {
 public:
+    TreeNode* pre=NULL;
     void flatten(TreeNode* root) {
+        /*
         if(root==NULL)
             return ;
         if(root->left==NULL&&root->right==NULL)
@@ -64,8 +72,15 @@ public:
             
             root=root->right;
             root->left=NULL;
-            
-            
-        }     
+        }    
+        */
+        if(root==NULL)
+            return ;
+        flatten(root->right);
+        flatten(root->left);
+        root->right=pre;
+        root->left=NULL;
+        pre=root;
     }
+    
 };

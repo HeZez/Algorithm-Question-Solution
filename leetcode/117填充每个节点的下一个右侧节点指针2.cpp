@@ -50,12 +50,16 @@ public:
     这一题和116的区别应该就是 116是满二叉树，而这个不是
     因为116我的解法也可以用到这道题上，就直接粘过来了
     不知道两个队列算不算满足常数额外空间
+    
+    用队列的话可能不算常数空间
+    既然递归不算额外空间  那就用递归实现吧
 */
 class Solution {
 public:
     Node* connect(Node* root) {
         if(root==NULL)
             return root;
+        /*
         queue<Node*> q1;
         queue<Node*> q2;
         q1.push(root);
@@ -89,6 +93,61 @@ public:
                     temp->next=NULL;
             }
         }
+        */
+        
+        
+        // 递归的话 只处理当前节点 左子节点
+        if(root->left)
+        {
+            // 由于不是满二叉树，左子树的next指针可能有几种情况
+            // 1.指向当前节点右子树 2 如果右子树不存在 那就指向root的next的左子树或者右子树， 
+            // 3.如果root没有next 那就指向NULL
+            if(root->right)
+                root->left->next=root->right;
+            else
+            {
+                // 注意这里要找next并不是只找一次就可以了
+                // 可能出现root->next没有子节点 但root->next->next有子节点的情况 所以要循环判断
+                // 因为next这个节点的默认值就是null 所以要是找不到合适的下一个节点 不用设置就好了
+                Node* node=root->next;
+                while(node)
+                {
+                    if(node->left)
+                    {
+                        root->left->next=node->left;
+                        break;
+                    }
+                    else if(node->right)
+                    {
+                        root->left->next=node->right;
+                        break;
+                    }
+                    node=node->next;
+                }
+            }
+        }
+        // 右子节点
+        if(root->right)
+        {
+            Node* node=root->next;
+            while(node)
+            {
+                    if(node->left)
+                    {
+                        root->right->next=node->left;
+                        break;
+                    }
+                    else if(node->right)
+                    {
+                        root->right->next=node->right;
+                        break;
+                    }
+                    node=node->next;
+            }
+        }
+        // 这里递归的时候要先右后左
+        connect(root->right);
+        connect(root->left);
         return root;
     }
 };

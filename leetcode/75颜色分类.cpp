@@ -25,6 +25,7 @@
 
 class Solution {
 public:
+    /*
     void quickSort3(vector<int>& nums, int start, int end, int len)
     {
         int l=start-1;
@@ -32,17 +33,39 @@ public:
         int i=start;
         while(i<r)
         {
-                if(nums[i]<1)
-                {
-                    l++;
-                    swap(nums[l],nums[i]);
-                    i++;
-                }
-                else if(nums[i]>1)
-                {
-                    r--;
-                    swap(nums[r],nums[i]);
-                }
+            if(nums[i]<1)
+            {
+                l++;
+                swap(nums[l],nums[i]);
+                i++;
+            }
+            else if(nums[i]>1)
+            {
+                r--;
+                swap(nums[r],nums[i]);
+            }
+            else
+                i++;
+        }
+    }
+    */
+    void quickSort3(vector<int>& nums, int start, int end)
+    {
+        int l=start-1, r=end+1;
+        int i=start;
+        while(i<r) // 注意这里的条件  
+        {
+            // 由于题中只有三个数，而且我们知道中间的那个数是1
+            // 所以使用1作为partition值
+            if(nums[i]<1)
+            {
+                swap(nums[i], nums[++l]);
+                i++;
+            }
+            else if(nums[i]>1)
+            {
+                swap(nums[i], nums[--r]);
+            }
             else
                 i++;
         }
@@ -52,6 +75,6 @@ public:
         int len=nums.size();
         if(len<=1)
             return ;
-        quickSort3(nums, 0, len-1, len);
+        quickSort3(nums, 0, len-1);
     }
 };

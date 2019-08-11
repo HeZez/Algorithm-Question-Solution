@@ -30,9 +30,11 @@ public:
     初始状态下，所有 next 指针都被设置为 NULL。
 */
 /*
-    我认为用队列辅助广搜，之后该指针就行了，因为这个树节点的定义里有next这个指针项，比较方便
+    我认为用队列辅助广搜，之后修改指针就行了，因为这个树节点的定义里有next这个指针项，比较方便
     需要两个队列，进行分层次遍历，这个方法能过，但是效率一般 之比55%的快，用了两个队列，空间也比较高
     或者在之前的类似问题里见过有人使用一个level变量来进行记录层数（只是见过，没想到怎么实现）
+    
+    用一个队列实现层次遍历，可以用一个变量记录当前层节点个数，之后进行处理，
 */
 class Solution {
 public:
@@ -43,6 +45,7 @@ public:
         queue<Node*> q2;
         q1.push(root);
         Node* temp;
+        /*
         while(!q1.empty()||!q2.empty())
         {
             while(!q1.empty())
@@ -72,6 +75,27 @@ public:
                     temp->next=NULL;
             }
         }
+        */
+        
+        while(!q1.empty())
+        {
+            int len=q1.size();
+            while(len>0)
+            {
+                temp=q1.front();
+                q1.pop();
+                if(temp->left)
+                    q1.push(temp->left);
+                if(temp->right)
+                    q1.push(temp->right);
+                if(len==1)
+                    temp->next=NULL;
+                else
+                    temp->next=q1.front();
+                len--;
+            }
+        }
+        
         return root;
     }
 };
