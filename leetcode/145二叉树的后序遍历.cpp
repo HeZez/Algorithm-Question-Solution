@@ -52,7 +52,7 @@ public:
             {
                 res.push_back(cur->val);
                 pre=cur;
-                s.pop();
+                s.pop();  // 注意这里，这个值被遍历到了之后再从栈中弹出
             }
             else
             {
