@@ -133,7 +133,7 @@ public:
         TreeNode* pre=NULL;
         stack<TreeNode*> s;
         s.push(cur);
-        while(!s.empty()||cur)
+        while(!s.empty())
         {
             cur=s.top();
             if((cur->left==NULL&&cur->right==NULL)||
@@ -199,8 +199,8 @@ int main()
 	s.inOrderTraversalByCyclic(t);
 	cout << endl<<"后序遍历递归实现二叉树序列为：" << endl;
 	s.posOrderTraversalByRecursion(t);
-	//cout << endl << "后序遍历循环实现二叉树序列为：" << endl;
-	//s.posOrderTraversalByCyclic(t);
+	cout << endl << "后序遍历循环实现二叉树序列为：" << endl;
+	s.posOrderTraversalByCyclic(t);
 	cout << endl << "层次遍历二叉树序列为：" << endl;
 	s.TraversalByLevel(t);
 	cout << endl;
